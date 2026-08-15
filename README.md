@@ -54,3 +54,21 @@ npm run dev            # অথবা প্রোডাকশনে: node app.j
 
 ## 📄 লাইসেন্স
 MIT
+
+
+## 👑 Owner Admin
+- URL: `/owner-admin`
+- Owner-only dashboard: platform revenue, users, merchants, shops, products, customers and orders overview
+- Shop activation/suspension and deletion
+- User activation/deactivation
+- Order status + payment status management
+- Recent orders and top-shop analytics
+
+### Owner account
+Create/update an owner securely from the server:
+
+```bash
+npm run create-owner -- "Pibery Owner" owner@example.com "CHANGE_THIS_STRONG_PASSWORD"
+```
+
+Then open `/owner-admin` and sign in.
