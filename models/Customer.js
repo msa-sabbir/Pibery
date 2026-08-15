@@ -33,3 +33,4 @@ customerSchema.pre('save', async function (next) {
 });
 
 module.exports = mongoose.model('Customer', customerSchema);
+ 
