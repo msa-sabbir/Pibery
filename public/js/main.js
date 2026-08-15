@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("Pibery Pro Studio Active!");
-
-    // 1. Dark/Light Theme Toggle Feature
+    // Theme Toggle Functionality
     const themeToggleBtn = document.getElementById('themeToggle');
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
@@ -11,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. Interactive Component Injector Feature
-    const toolItems = document.querySelectorAll('.draggable-tools li');
+    // Toolbox Component Injector into Canvas
+    const tools = document.querySelectorAll('.draggable-tools li');
     const dropCanvas = document.getElementById('dropCanvas');
 
-    toolItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const elementType = item.getAttribute('data-element');
+    tools.forEach(tool => {
+        tool.addEventListener('click', () => {
+            const elementType = tool.getAttribute('data-element');
             
             // Remove welcome placeholder if exists
             const placeholder = dropCanvas.querySelector('.welcome-placeholder');
@@ -25,43 +23,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 placeholder.remove();
             }
 
-            let componentHtml = '';
+            // Create new component preview block
+            const newElement = document.createElement('div');
+            newElement.className = 'canvas-element-item';
+            newElement.style.cssText = 'background: #1e293b; border: 1px dashed #38bdf8; padding: 15px; margin-bottom: 12px; border-radius: 8px; text-align: left; color: #f1f5f9; position: relative;';
+            
+            newElement.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                    <strong style="color: #38bdf8; text-transform: uppercase; font-size: 0.85rem;"><i class="fa-solid fa-cube"></i> ${elementType} Block Added</strong>
+                    <button class="remove-block" style="background: #ef4444; border: none; color: white; border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 0.75rem;">Delete</button>
+                </div>
+                <p style="font-size: 0.8rem; color: #94a3b8; margin: 0;">This live component is successfully injected into your storefront layout.</p>
+            `;
 
-            if (elementType === 'hero') {
-                componentHtml = `
-                    <div class="dynamic-component">
-                        <h2 style="color: #38bdf8; margin-bottom: 10px;">🚀 Dynamic Hero Section</h2>
-                        <p>Launch your projects with speed using Pibery Builder engine components.</p>
-                    </div>`;
-            } else if (elementType === 'features') {
-                componentHtml = `
-                    <div class="dynamic-component">
-                        <h3 style="color: #38bdf8; margin-bottom: 10px;">⚡ Features Grid Module</h3>
-                        <p>High performance layout elements customized for modern web standards.</p>
-                    </div>`;
-            } else if (elementType === 'pricing') {
-                componentHtml = `
-                    <div class="dynamic-component">
-                        <h3 style="color: #38bdf8; margin-bottom: 10px;">🏷️ Pricing Plans Package</h3>
-                        <p>Flexible pricing components ready for monetization.</p>
-                    </div>`;
-            } else if (elementType === 'contact') {
-                componentHtml = `
-                    <div class="dynamic-component">
-                        <h3 style="color: #38bdf8; margin-bottom: 10px;">✉️ Contact Form Block</h3>
-                        <p>Secure inquiry submission form integrated with database router.</p>
-                    </div>`;
-            }
+            // Delete action
+            newElement.querySelector('.remove-block').addEventListener('click', () => {
+                newElement.remove();
+                if (dropCanvas.children.length === 0) {
+                    dropCanvas.innerHTML = `
+                        <div class="welcome-placeholder">
+                            <i class="fa-solid fa-cloud-arrow-down" style="font-size: 3rem; color: #38bdf8; margin-bottom: 15px;"></i>
+                            <h3 style="color: #f1f5f9;">Your Canvas is Ready</h3>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Select components from the left toolbox to build your live page structure.</p>
+                        </div>
+                    `;
+                }
+            });
 
-            dropCanvas.insertAdjacentHTML('beforeend', componentHtml);
+            dropCanvas.appendChild(newElement);
         });
     });
 
-    // 3. Project Export Feature
+    // Export Project Simulator
     const exportBtn = document.getElementById('exportCodeBtn');
     if (exportBtn) {
         exportBtn.addEventListener('click', () => {
-            alert('🎉 Success! Your custom website workspace has been packaged and exported successfully.');
+            alert('Success! Your store package, admin control panel, and storefront assets have been compiled and exported successfully.');
         });
     }
 });
