@@ -15,13 +15,15 @@ app.set('view engine', 'ejs');
 const authRoutes = require('./routes/authRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const productRoutes = require('./routes/productRoutes');
-const businessRoutes = require('./routes/businessRoutes'); // নতুন বিজনেস রুট
+const businessRoutes = require('./routes/businessRoutes');
+const storeRoutes = require('./routes/storeRoutes'); // নতুন স্টোর ফিচার রুট
 
 // Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/shop', shopRoutes);
 app.use('/api/product', productRoutes);
-app.use('/api/business', businessRoutes); // নতুন বিজনেস রুট যুক্ত করা হলো
+app.use('/api/business', businessRoutes);
+app.use('/api/store-features', storeRoutes); // নতুন স্টোর ফিচার রুট যুক্ত করা হলো
 
 app.get('/', (req, res) => {
     res.render('dashboard');
