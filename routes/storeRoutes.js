@@ -23,4 +23,3 @@ router.get('/platform/shops', protect, authorize('owner'), listAllShops);
 router.patch('/platform/shops/:id/toggle-active', protect, authorize('owner'), toggleShopActive);
 
 module.exports = router;
- 
