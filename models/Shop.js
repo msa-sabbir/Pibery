@@ -36,3 +36,4 @@ shopSchema.pre('validate', function (next) {
 });
 
 module.exports = mongoose.model('Shop', shopSchema);
+ 
