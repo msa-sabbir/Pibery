@@ -175,3 +175,4 @@ exports.getLoyalty = async (req, res) => {
   if (!customer) return res.status(404).json({ success: false, message: 'কাস্টমার পাওয়া যায়নি' });
   res.status(200).json({ success: true, customer });
 };
+ 
