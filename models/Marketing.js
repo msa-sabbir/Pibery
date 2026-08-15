@@ -22,3 +22,4 @@ const marketingSchema = new mongoose.Schema(
 marketingSchema.index({ shop: 1, code: 1 }, { unique: true, sparse: true });
 
 module.exports = mongoose.model('Marketing', marketingSchema);
+ 
