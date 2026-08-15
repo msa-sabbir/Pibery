@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+<main class="container" style="padding: 30px; max-width: 1200px; margin: auto;">
+    <!-- Admin Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #1f2937; padding-bottom: 15px;">
+        <div>
+            <h1 style="color: #38bdf8; margin: 0; font-size: 1.8rem;"><i class="fa-solid fa-user-shield"></i> Merchant Admin Panel</h1>
+            <p style="color: #94a3b8; margin: 5px 0 0 0;">Manage your store products, live orders, and business analytics.</p>
+        </div>
+        <div>
+            <span style="background: #1e293b; color: #38bdf8; padding: 8px 15px; border-radius: 8px; border: 1px solid #374151; font-size: 0.9rem;">
+                <i class="fa-solid fa-store"></i> Store ID: <strong>pibery-shop-01</strong>
+            </span>
+        </div>
+    </div>
+
+    <!-- Quick Stats Overview Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 35px;">
+        <div style="background: #111827; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;">
+            <p style="color: #94a3b8; margin: 0; font-size: 0.85rem;">Total Revenue</p>
+            <h3 style="color: #10b981; margin: 8px 0 0 0; font-size: 1.6rem;">৳ ১২,৫০০</h3>
+        </div>
+        <div style="background: #111827; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;">
+            <p style="color: #94a3b8; margin: 0; font-size: 0.85rem;">Total Orders</p>
+            <h3 style="color: #38bdf8; margin: 8px 0 0 0; font-size: 1.6rem;">২৪ টি</h3>
+        </div>
+        <div style="background: #111827; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;">
+            <p style="color: #94a3b8; margin: 0; font-size: 0.85rem;">Active Products</p>
+            <h3 style="color: #f59e0b; margin: 8px 0 0 0; font-size: 1.6rem;">১২ টি</h3>
+        </div>
+        <div style="background: #111827; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;">
+            <p style="color: #94a3b8; margin: 0; font-size: 0.85rem;">Total Customers</p>
+            <h3 style="color: #ec4899; margin: 8px 0 0 0; font-size: 1.6rem;">১৮ জন</h3>
+        </div>
+    </div>
+
+    <!-- Admin Management Sections Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
+        
+        <!-- Add New Product Form Section -->
+        <div style="background: #111827; padding: 25px; border-radius: 12px; border: 1px solid #1f2937;">
+            <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;"><i class="fa-solid fa-circle-plus"></i> Add New Product to Store</h3>
+            <form action="/admin/product/add" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+                <div>
+                    <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">Product Title</label>
+                    <input type="text" name="title" placeholder="e.g. Smart Watch" required style="width: 100%; background: #1e293b; border: 1px solid #374151; padding: 10px; border-radius: 6px; color: #f1f5f9;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">Price (BDT)</label>
+                    <input type="number" name="price" placeholder="e.g. 1500" required style="width: 100%; background: #1e293b; border: 1px solid #374151; padding: 10px; border-radius: 6px; color: #f1f5f9;">
+                </div>
+                <div>
+                    <label style="display: block; font-size: 0.85rem; color: #94a3b8; margin-bottom: 5px;">Product Description</label>
+                    <textarea name="description" placeholder="Write short details..." rows="3" style="width: 100%; background: #1e293b; border: 1px solid #374151; padding: 10px; border-radius: 6px; color: #f1f5f9;"></textarea>
+                </div>
+                <button type="submit" style="background: #38bdf8; color: #0b0f19; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer;"><i class="fa-solid fa-cloud-arrow-up"></i> Publish Product</button>
+            </form>
+        </div>
+
+        <!-- Recent Live Orders Section -->
+        <div style="background: #111827; padding: 25px; border-radius: 12px; border: 1px solid #1f2937;">
+            <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;"><i class="fa-solid fa-list-check"></i> Recent Customer Orders</h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="background: #1e293b; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="font-size: 0.9rem; color: #f1f5f9;">Rahim Ahmed</strong>
+                        <p style="font-size: 0.75rem; color: #94a3b8; margin: 3px 0 0 0;">Item: Smart Watch | Qty: 1</p>
+                    </div>
+                    <span style="background: #f59e0b; color: #0b0f19; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: 600;">Pending</span>
+                </div>
+                <div style="background: #1e293b; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="font-size: 0.9rem; color: #f1f5f9;">Karim Hossain</strong>
+                        <p style="font-size: 0.75rem; color: #94a3b8; margin: 3px 0 0 0;">Item: T-Shirt | Qty: 2</p>
+                    </div>
+                    <span style="background: #10b981; color: #0b0f19; font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: 600;">Completed</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<%- include('partials/footer') %>
