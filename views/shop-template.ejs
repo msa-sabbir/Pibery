@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dynamic Storefront</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-    <div class="container" style="padding: 50px;">
-        <h1 id="shopTitle">Dynamic Merchant Store</h1>
-        <p>Powered by Pibery Website Builder Engine.</p>
+<%- include('partials/header') %>
+
+<header class="storefront-nav">
+  <div class="container navbar-inner">
+    <div class="logo" id="shop-name">লোড হচ্ছে...</div>
+    <div class="storefront-actions">
+      <input id="search-box" placeholder="প্রোডাক্ট খুঁজুন..." />
+      <button class="btn btn-primary" onclick="toggleCart()"><i class="fa-solid fa-cart-shopping"></i> কার্ট (<span id="cart-count">0</span>)</button>
     </div>
-</body>
-</html>
+  </div>
+</header>
+
+<main class="container">
+  <div id="product-grid" class="grid-4"></div>
+</main>
+
+<div id="cart-drawer" class="cart-drawer hidden">
+  <h3>শপিং কার্ট</h3>
+  <div id="cart-items"></div>
+  <div class="cart-total">মোট: ৳<span id="cart-total">0</span></div>
+  <input id="guest-name" placeholder="আপনার নাম" />
+  <input id="guest-email" placeholder="ইমেইল" />
+  <input id="guest-phone" placeholder="ফোন নম্বর" />
+  <input id="coupon-code" placeholder="কুপন কোড (ঐচ্ছিক)" />
+  <button class="btn btn-primary" onclick="submitCheckout()">চেকআউট করুন</button>
+</div>
+
+<script>
+  window.PIBERY_SHOP_SUBDOMAIN = "<%= subdomain %>";
+</script>
+
+<%- include('partials/footer') %>
