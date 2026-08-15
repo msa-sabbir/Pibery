@@ -27,3 +27,4 @@ router.get('/:shopId/marketing', getCoupons);
 router.delete('/marketing/:id', deleteCoupon);
 
 module.exports = router;
+ 
