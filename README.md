@@ -4,28 +4,52 @@ Pibery হলো একটি মডার্ন এবং পাওয়ারফ
 
 ---
 
-## 📂 প্রজেক্ট স্ট্রাকচার (Project Structure)
+## 🛠️ টেকনোলজি স্ট্যাক ও আর্কিটেকচার
 
-আপনার প্রজেক্টটি একটি সুশৃঙ্খল MVC (Model-View-Controller) আর্কিটেকচারে সাজানো হয়েছে:
+আপনার প্রজেক্টটি একটি সুশৃঙ্খল **MVC (Model-View-Controller)** প্যাটার্নে তৈরি এবং এর টেকনোলজি স্ট্যাক নিচে দেওয়া হলো:
+
+* **Frontend:** HTML5, CSS3, Google Fonts (*Inter*), FontAwesome Icons, Vanilla JavaScript (ES6+), এবং **Embedded JavaScript (EJS)** টেমপ্লেট ইঞ্জিন।
+* **Backend:** **Node.js** এবং **Express.js** ফ্রেমওয়ার্কের মাধ্যমে তৈরি সুরক্ষিত RESTful API আর্কিটেকচার।
+* **Database:** **MongoDB** এবং **Mongoose ODM** ব্যবহারের মাধ্যমে স্কেলেবল ডাটা ম্যানেজমেন্ট।
+
+---
+
+## 📂 প্রজেক্ট স্ট্রাকচার (Project Structure)
 
 ```text
 pibery-website-builder/
+├── config/               # ডাটাবেজ কানেকশন কনফিগারেশন
+│   └── db.js
 ├── controllers/          # বিজনেস লজিক হ্যান্ডলার
+│   ├── authController.js
+│   ├── shopController.js
+│   ├── productController.js
+│   ├── businessController.js
 │   └── storeController.js # অ্যাডমিন ও ইউজার সাইট ফিচার লজিক
-├── models/               # ডাটাবেজ মডেল
+├── models/               # ডাটাবেজ মডেল (Mongoose Schemas)
+│   ├── User.js           # ইউজার ও রোল মডেল
+│   ├── Shop.js           # শপ ও সাবডোমেন মডেল
+│   ├── Product.js        # প্রোডাক্ট ও ইনভেন্টরি মডেল
+│   ├── Order.js          # অর্ডার ট্র্যাকিং ও ফুলফিলমেন্ট মডেল
 │   ├── Customer.js       # কাস্টমার প্রোফাইল ও লয়্যালটি ডাটা
 │   ├── Staff.js          # স্টাফ রোল ও পারমিশন কন্ট্রোল
 │   └── Marketing.js      # ডিসকাউন্ট কুপন ও ক্যাম্পেইন ম্যানেজমেন্ট
 ├── routes/               # API রাউটিং
-│   └── storeRoutes.js    # নতুন যুক্ত স্টোর ফিচার রাউটস
-├── views/                # ফ্রন্টএন্ড ভিউ (EJS)
-│   └── dashboard.ejs     # মেইন বিল্ডার ড্যাশবোর্ড ও ইন্টারফেস
+│   ├── authRoutes.js
+│   ├── shopRoutes.js
+│   ├── productRoutes.js
+│   ├── businessRoutes.js
+│   └── storeRoutes.js    # স্টোর ফিচার রাউটস
+├── views/                # ফ্রন্টএন্ড ভিউ (EJS & HTML)
+│   ├── partials/         # হেডার ও ফুটার পার্টস
+│   ├── dashboard.ejs     # মেইন বিল্ডার ড্যাশবোর্ড ও ইন্টারফেস
+│   ├── index.html
+│   └── shop-template.ejs
 ├── public/               # স্ট্যাটিক অ্যাসেটস (CSS, JS, Images)
+├── .env                  # এনভায়রনমেন্ট ভেরিয়েবল
 ├── app.js                # মেইন সার্ভার ফাইল (Entry Point)
 ├── package.json          # ডিপেন্ডেন্সি ও প্যাকেজ ফাইল
 └── README.md             # প্রজেক্ট ডকুমেন্টেশন
-
-
 
 
 
@@ -40,6 +64,9 @@ pibery-website-builder/
 ​মার্কেটিং: ডিসকাউন্ট কুপন তৈরি, ইমেইল ক্যাম্পেইন এবং সোশ্যাল মিডিয়া কানেক্টিভিটি।
 ​পারমিশন কন্ট্রোল: কর্মীদের জন্য নির্দিষ্ট কাজের এক্সেস নিয়ন্ত্রণ।
 ​অ্যাপ ইন্টিগ্রেশন: অ্যাপ স্টোর থেকে অতিরিক্ত ফাংশনালিটি যোগ করার সুবিধা।
+
+
+
 ​🛍️ ইউজার সাইট (গ্রাহকদের জন্য)
 ​পণ্য ব্রাউজিং: উন্নত সার্চ, ফিল্টার (দাম, সাইজ, রঙ) ও সর্টিং।
 ​প্রোডাক্ট পেজ: হাই-কোয়ালিটি মিডিয়া গ্যালারি, রিভিউ ও রেটিং।
@@ -50,14 +77,21 @@ pibery-website-builder/
 ​লয়্যালটি প্রোগ্রাম: কেনাকাটায় পয়েন্ট বা রিওয়ার্ড অর্জনের সুবিধা।
 
 
-​🛠️ টেকনোলজি স্ট্যাক
-​Core: Node.js, Express.js
-​Database: MongoDB & Mongoose
-​Templating: EJS
-​Architecture: MVC Pattern
-​📜 লাইসেন্স
+
+​🚀 ইন্সটলেশন ও রান (Setup Guide)
+​১. ক্লোন করুন: git clone [https://github.com/pibery-online/Pibery-Website-Builder.git](https://github.com/pibery-online/Pibery-Website-Builder.git)
+cd Pibery-Website-Builder
+
+
+২. ডিপেন্ডেন্সি ইনস্টল করুন: npm install
+
+৩. সার্ভার রান করুন: node app.js
+
+৪. ব্রাউজারে প্রবেশ করুন: http://localhost:3000
+
+
+📜 লাইসেন্স
 ​এই প্রজেক্টটি MIT লাইসেন্সের অধীনে উন্মুক্ত।
 ​👨‍💻 অবদানকারী
-​আপনার নাম বা ডেভেলপমেন্ট টিমের নাম এখানে যোগ করতে পারেন।
 ​[আপনার গিটহাব প্রোফাইল লিংক]
 ​আপনার বিজনেসকে ডিজিটাল করতে Pibery ওয়েবসাইট বিল্ডার ব্যবহার করুন।
