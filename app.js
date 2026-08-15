@@ -15,14 +15,16 @@ app.set('view engine', 'ejs');
 const authRoutes = require('./routes/authRoutes');
 const shopRoutes = require('./routes/shopRoutes');
 const productRoutes = require('./routes/productRoutes');
+const businessRoutes = require('./routes/businessRoutes'); // নতুন বিজনেস রুট
 
 // Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/shop', shopRoutes);
 app.use('/api/product', productRoutes);
+app.use('/api/business', businessRoutes); // নতুন বিজনেস রুট যুক্ত করা হলো
 
 app.get('/', (req, res) => {
-    res.render('dashboard'); // অথবা সরাসরি রেন্ডার করতে পারেন
+    res.render('dashboard');
 });
 
 const PORT = process.env.PORT || 3000;
