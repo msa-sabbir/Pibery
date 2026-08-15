@@ -1,123 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pibery Website Builder - Build Your Dream Website</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pibery — নো-কোড ই-কমার্স ওয়েবসাইট বিল্ডার</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <div class="logo"><i class="fa-solid fa-store"></i> Pibery</div>
+      <nav>
+        <a href="#features">ফিচার</a>
+        <a href="#roadmap">রোডম্যাপ</a>
+        <a href="/dashboard" class="btn btn-primary">ড্যাশবোর্ডে যান</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Header Section -->
-    <header class="navbar">
-        <div class="container nav-container">
-            <div class="logo">
-                <i class="fa-solid fa-cube"></i> <span>Pibery Builder</span>
-            </div>
-            <nav class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#builder">Builder Preview</a>
-                <a href="#templates">Templates</a>
-                <a href="#contact">Contact</a>
-            </nav>
-            <div class="nav-action">
-                <a href="#builder" class="btn-primary">Get Started</a>
-            </div>
-        </div>
-    </header>
+  <section class="hero">
+    <div class="container">
+      <h1>কোনো কোডিং ছাড়াই তৈরি করুন প্রফেশনাল ই-কমার্স সাইট</h1>
+      <p>Pibery একটি মডার্ন ওয়েবসাইট বিল্ডার — ড্র্যাগ-অ্যান্ড-ড্রপ ক্যানভাসে দোকান সাজান, প্রোডাক্ট যোগ করুন, আর বিক্রি শুরু করুন।</p>
+      <a href="/dashboard" class="btn btn-primary btn-lg">ফ্রি শুরু করুন <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </section>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container hero-content">
-            <h1>Build Stunning Websites <br><span class="highlight">Without Limits</span></h1>
-            <p>Pibery Website Builder empowers you to design, customize, and launch lightning-fast websites with an intuitive drag-and-drop experience.</p>
-            <div class="hero-btns">
-                <a href="#builder" class="btn-primary">Start Building Now</a>
-                <a href="#features" class="btn-secondary">Learn More</a>
-            </div>
-        </div>
-    </section>
+  <section id="features" class="section">
+    <div class="container">
+      <h2>মূল ফিচারসমূহ</h2>
+      <div class="grid-3">
+        <div class="card"><i class="fa-solid fa-layer-group"></i><h3>স্টুডিও ও ক্যানভাস বিল্ডার</h3><p>ক্লিক করে হিরো সেকশন, ফিচার গ্রিড, প্রাইসিং টেবিল যুক্ত করুন।</p></div>
+        <div class="card"><i class="fa-solid fa-chart-line"></i><h3>রিয়েল-টাইম অ্যানালিটিক্স</h3><p>সেলস, ট্রাফিক ও অর্ডার একই ড্যাশবোর্ডে দেখুন।</p></div>
+        <div class="card"><i class="fa-solid fa-boxes-stacked"></i><h3>ইনভেন্টরি ম্যানেজমেন্ট</h3><p>স্টক ট্র্যাক করুন এবং অর্ডার প্রসেস করুন সহজে।</p></div>
+        <div class="card"><i class="fa-solid fa-tags"></i><h3>মার্কেটিং টুলস</h3><p>কুপন কোড ও প্রচারণামূলক ক্যাম্পেইন তৈরি করুন।</p></div>
+        <div class="card"><i class="fa-solid fa-cart-shopping"></i><h3>স্মার্ট শপিং কার্ট</h3><p>গেস্ট চেকআউট সহ দ্রুত ও নিরাপদ কেনাকাটার অভিজ্ঞতা।</p></div>
+        <div class="card"><i class="fa-solid fa-award"></i><h3>লয়্যালটি প্রোগ্রাম</h3><p>প্রতিটি কেনাকাটায় পয়েন্ট অর্জনের সুবিধা দিন।</p></div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Interactive Builder Interface Section -->
-    <section id="builder" class="builder-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Interactive Builder Studio</h2>
-                <p>Preview your workspace and components in action.</p>
-            </div>
-            <div class="builder-workspace">
-                <div class="sidebar-tools">
-                    <h3>Components</h3>
-                    <ul class="tool-list">
-                        <li><i class="fa-solid fa-heading"></i> Header Section</li>
-                        <li><i class="fa-solid fa-image"></i> Image Gallery</li>
-                        <li><i class="fa-solid fa-paragraph"></i> Text Block</li>
-                        <li><i class="fa-solid fa-square-poll-vertical"></i> Pricing Table</li>
-                        <li><i class="fa-solid fa-envelope"></i> Contact Form</li>
-                    </ul>
-                </div>
-                <div class="preview-canvas">
-                    <div class="canvas-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                        <span class="canvas-title">pibery-live-preview.html</span>
-                    </div>
-                    <div class="canvas-body">
-                        <h3>Welcome to Your New Canvas</h3>
-                        <p>Select tools from the left sidebar to add components to your live workspace.</p>
-                        <button id="alertBtn" class="btn-primary" style="margin-top: 15px;">Test Interaction</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Choose Pibery?</h2>
-                <p>Everything you need to create professional web solutions.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <i class="fa-solid fa-bolt"></i>
-                    <h3>Lightning Fast</h3>
-                    <p>Optimized core framework ensuring ultra-fast page load times for your users.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fa-solid fa-mobile-screen-button"></i>
-                    <h3>Fully Responsive</h3>
-                    <p>Websites automatically adapt smoothly to all screen sizes and mobile devices.</p>
-                </div>
-                <div class="feature-card">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <h3>Secure & Reliable</h3>
-                    <p>Built with modern security standards to keep your data safe at all times.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer id="contact" class="footer">
-        <div class="container footer-content">
-            <p>&copy; 2026 Pibery Online. All rights reserved.</p>
-            <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-github"></i></a>
-                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Custom JS -->
-    <script src="assets/js/main.js"></script>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Pibery. সর্বস্বত্ব সংরক্ষিত। | support@pibery.com</p>
+    </div>
+  </footer>
 </body>
 </html>
