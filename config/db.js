@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/pibery', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.error(`Error: ${error.message}`);
-        process.exit(1);
-    }
+  try {
+    const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/pibery';
+    await mongoose.connect(uri);
+    console.log(`✅ MongoDB সংযুক্ত হয়েছে: ${mongoose.connection.host}`);
+  } catch (err) {
+    console.error('❌ MongoDB কানেকশন ব্যর্থ:', err.message);
+    process.exit(1);
+  }
 };
 
-export.module = connectDB; // অথবা module.exports = connectDB;
+module.exports = connectDB;
