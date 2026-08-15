@@ -4,7 +4,12 @@ const Product = require('../models/Product');
 const Order = require('../models/Order');
 const Customer = require('../models/Customer');
 
-// ১. এডমিন সাইট: ড্যাশবোর্ড ওভারভিউ ও লাইভ স্ট্যাটিস্টিক্স
+// ১. এডমিন ড্যাশবোর্ড পেজ রেন্ডার করার রাউট
+router.get('/admin/dashboard', (req, res) => {
+    res.render('admin-dashboard');
+});
+
+// ২. এডমিন সাইট: ড্যাশবোর্ড ওভারভিউ ও লাইভ স্ট্যাটিস্টিক্স API
 router.get('/admin/stats/:shopId', async (req, res) => {
     try {
         const { shopId } = req.params;
@@ -24,7 +29,26 @@ router.get('/admin/stats/:shopId', async (req, res) => {
     }
 });
 
-// ২. ইউজার সাইট: প্রোডাক্ট ব্রাউজিং, সার্চ ও ফিল্টারিং
+// ৩. নতুন প্রোডাক্ট যোগ করার হ্যান্ডলার (Admin Action)
+router.post('/admin/product/add', async (req, res) => {
+    try {
+        const { title, price, description } = req.body;
+        
+        const newProduct = new Product({
+            shopId: 'pibery-shop-01',
+            title,
+            price,
+            description
+        });
+
+        await newProduct.save();
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        res.status(500).send("Error adding product: " + error.message);
+    }
+});
+
+// ৪. ইউজার সাইট: প্রোডাক্ট ব্রাউজিং, সার্চ ও ফিল্টারিং
 router.get('/store/products', async (req, res) => {
     try {
         const { shopId, keyword, minPrice, maxPrice } = req.query;
@@ -47,7 +71,7 @@ router.get('/store/products', async (req, res) => {
     }
 });
 
-// ৩. ইউজার সাইট: গেস্ট চেকআউট ও অর্ডার প্লেসমেন্ট
+// ৫. ইউজার সাইট: গেস্ট চেকআউট ও অর্ডার প্লেসমেন্ট
 router.post('/store/order/create', async (req, res) => {
     try {
         const { shopId, customerName, items, totalAmount, shippingAddress } = req.body;
