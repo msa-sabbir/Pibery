@@ -1,83 +1,60 @@
-# Pibery Website Builder & E-Commerce Suite
+# Pibery Website Builder 🚀
 
-> A modern, scalable, and feature-rich multi-tenant website builder and store-management platform designed to empower merchants to create stunning e-commerce stores with advanced inventory, order processing, and customer loyalty programs.
-
----
-
-## 🏗️ System Architecture & Feature Breakdown
-
-### 1. Main Platform Architecture (Pibery Core)
-* **Frontend:** HTML5, CSS3, Vanilla JavaScript (ES6+), EJS, Google Fonts (*Inter*), FontAwesome.
-* **Backend:** Node.js, Express.js RESTful API architecture.
-* **Database:** MongoDB with Mongoose ODM (Schemas for Users, Shops, Products, Orders).
+Pibery Website Builder হলো একটি শক্তিশালী এবং আধুনিক প্ল্যাটফর্ম, যা ব্যবহারকারীদের কোনো কোডিং ছাড়াই অত্যন্ত দ্রুত প্রফেশনাল ই-কমার্স এবং বিজনেস ওয়েবসাইট তৈরি করতে সাহায্য করে। এটি ব্যবসায়িক প্রয়োজন অনুযায়ী স্কেলেবল ব্যাকএন্ড এবং আকর্ষণীয় ফ্রন্টএন্ড ফিচারে পরিপূর্ণ।
 
 ---
 
-### 2. Detailed Feature Specification
+## 🌟 মূল বৈশিষ্ট্যসমূহ (Core Features)
 
-#### A. Main Platform Level (Pibery Admin & Builder)
-* **Website Builder Studio:** Interactive component injector (Hero sections, feature grids, pricing tables, contact forms) allowing users to visually construct pages.
-* **Subdomain & Store Provisioning:** Automated creation of unique subdomains and customized storefronts for every registered merchant.
-* **Multi-Tenant User Management:** Role-based access control (`admin`, `merchant`, `customer`) for secure platform operations.
-* **Global Theme Management:** Real-time dark/light workspace toggle and template selection engine.
+### 🛠️ অ্যাডমিন প্যানেল (মালিক ও কর্মীদের জন্য)
+পুরো ব্যবসায়িক কর্মকাণ্ড পরিচালনার জন্য একটি নিয়ন্ত্রিত ড্যাশবোর্ড:
+*   **ড্যাশবোর্ড:** বিক্রয়, অর্ডার এবং ভিজিটর সংখ্যার রিয়েল-টাইম ডাটা।
+*   **অর্ডার ম্যানেজমেন্ট:** প্রক্রিয়াকরণ, প্যাকিং স্লিপ, শিপিং লেবেল এবং রিটার্ন/রিফান্ড হ্যান্ডেলিং।
+*   **ইনভেন্টরি কন্ট্রোল:** মাল্টি-লোকেশন স্টক ট্র্যাকিং এবং বাল্ক আপডেট।
+*   **গ্রাহক ব্যবস্থাপনা (CRM):** গ্রাহকের প্রোফাইল, কেনার ইতিহাস এবং মার্কেটিং সেগমেন্টেশন।
+*   **মার্কেটিং টুলস:** কাস্টম কুপন তৈরি এবং ইমেইল ক্যাম্পেইন পরিচালনা।
+*   **কর্মী পারমিশন:** রোল অনুযায়ী কর্মীদের অ্যাক্সেস নিয়ন্ত্রণ।
 
----
-
-#### B. Merchant's E-Commerce Store Level (Generated via Builder)
-
-##### 🛠️ Merchant Admin Panel (Store Owner's Dashboard)
-* **Online Order Management:** Real-time notification, acceptance, processing, and management of incoming customer orders.
-* **Smart Inventory Control:** Automated real-time stock tracking synchronized directly with sales transactions.
-* **Order Fulfillment Tracking:** Full pipeline visibility from *Pending*, *Processing*, *Shipped*, to *Delivered* or *Cancelled*.
-* **Custom Receipt & Invoice Printing:** Generate professional, printable, and customized transaction receipts for customers.
-* **Customer Loyalty Program:** Automated calculation and management of loyalty points to reward repeat buyers.
-* **Product & Catalog Management:** Add, update, or remove products, categories, pricing, and images.
-
-##### 🛍️ Storefront User/Customer Side (End-User Shopping Experience)
-* **Interactive Storefront:** Clean, responsive, and mobile-friendly shopping layout generated via Pibery templates.
-* **Product Catalog & Search:** Browse products, view high-resolution imagery, details, and live stock status.
-* **Seamless Checkout Process:** Quick and secure cart management and order placement.
-* **Order Tracking & Status:** Customers can view their purchase history and track fulfillment status.
-* **Loyalty Points Redemption:** View earned reward points and leverage discounts on repeat purchases.
+### 🛍️ ইউজার সাইট (গ্রাহকদের জন্য)
+গ্রাহকদের কেনাকাটার অভিজ্ঞতাকে সহজ ও আনন্দদায়ক করতে:
+*   **স্মার্ট প্রোডাক্ট ব্রাউজিং:** উন্নত সার্চ এবং ফিল্টার সিস্টেম।
+*   **স্মুথ চেকআউট:** গেস্ট চেকআউট এবং একাধিক পেমেন্ট গেটওয়ে সুবিধা।
+*   **রিয়েল-টাইম ট্র্যাকিং:** অর্ডার প্লেসমেন্ট থেকে ডেলিভারি পর্যন্ত আপডেট।
+*   **কাস্টমার অ্যাকাউন্ট:** উইশলিস্ট, অর্ডার হিস্ট্রি এবং পাসওয়ার্ডহীন লগইন।
+*   **লয়্যালটি প্রোগ্রাম:** প্রতিটি কেনাকাটায় রিওয়ার্ড পয়েন্টের সুবিধা।
 
 ---
 
-## 📁 Project Directory Structure
+## 🛠️ টেকনোলজি স্ট্যাক
+*   **Backend:** Node.js, Express.js
+*   **Database:** MongoDB (Mongoose)
+*   **Frontend:** HTML5, CSS3, EJS (Embedded JavaScript Templates)
+*   **Real-time Logic:** REST API Architecture
 
-```text
-Pibery-Website-Builder/
-│
-├── config/
-│   └── db.js                 # Database connection setup (Mongoose)
-├── controllers/
-│   ├── authController.js     # User authentication logic
-│   ├── shopController.js     # E-commerce shop creation & management
-│   ├── productController.js  # Inventory & product handling
-│   └── businessController.js # Order management, receipts & loyalty logic
-├── models/
-│   ├── User.js               # User database schema
-│   ├── Shop.js               # Shop database schema
-│   ├── Product.js            # Product/Inventory database schema
-│   └── Order.js              # Order tracking database schema
-├── public/
-│   ├── css/
-│   │   └── style.css         # Global styles & dark/light themes
-│   └── js/
-│       └── main.js           # Frontend interactivity & dynamic builder scripts
-├── routes/
-│   ├── authRoutes.js
-│   ├── shopRoutes.js
-│   ├── productRoutes.js
-│   └── businessRoutes.js
-├── views/
-│   ├── partials/
-│   │   ├── header.ejs        # Reusable header component
-│   │   └── footer.ejs        # Reusable footer component
-│   ├── dashboard.ejs         # Main management studio & builder workspace
-│   ├── index.html            # Landing page view
-│   └── shop-template.ejs     # Dynamic storefront template
-│
-├── .env                      # Environment variables configuration
-├── app.js                    # Main server entry point
-├── package.json              # Project dependencies and metadata
-└── README.md                 # Project documentation
+---
+
+## 🚀 কিভাবে ব্যবহার করবেন?
+
+১. প্রজেক্টটি ক্লোন করুন:
+   `git clone https://github.com/your-username/pibery-website-builder.git`
+
+২. প্রয়োজনীয় ডিপেন্ডেন্সি ইনস্টল করুন:
+   `npm install`
+
+৩. সার্ভার শুরু করুন:
+   `npm start`
+
+৪. আপনার ব্রাউজারে `http://localhost:3000` ভিজিট করুন।
+
+---
+
+## 📝 লাইসেন্স
+এই প্রজেক্টটি [MIT লাইসেন্স](LICENSE)-এর অধীনে উন্মুক্ত।
+
+## 🤝 যোগাযোগ
+আপনার যদি কোনো ফিডব্যাক বা প্রশ্ন থাকে, তবে নির্দ্বিধায় যোগাযোগ করুন।
+- ইমেইল: [আপনার ইমেইল ঠিকানা]
+- ওয়েবসাইট: [আপনার ওয়েবসাইট লিংক]
+
+---
+*আপনার বিজনেসকে ডিজিটাল করতে Pibery বেছে নিন!*
