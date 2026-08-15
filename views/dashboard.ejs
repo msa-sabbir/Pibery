@@ -1,6 +1,46 @@
 <%- include('partials/header') %>
-<main class="container" style="padding: 100px 0;">
-    <h1>Merchant Dashboard</h1>
-    <p>Welcome to your Pibery control panel. Manage your online stores and products here.</p>
+
+<main class="container dashboard-container">
+    <div class="dashboard-header">
+        <div>
+            <h1>Pibery Studio Dashboard</h1>
+            <p>Design, build, and preview your professional websites instantly.</p>
+        </div>
+        <div class="dashboard-actions">
+            <button id="themeToggle" class="btn-secondary"><i class="fa-solid fa-moon"></i> Theme</button>
+            <button id="exportCodeBtn" class="btn-primary"><i class="fa-solid fa-code"></i> Export Project</button>
+        </div>
+    </div>
+
+    <!-- Interactive Builder Workspace -->
+    <div class="builder-studio">
+        <div class="sidebar-toolbox">
+            <h3><i class="fa-solid fa-toolbox"></i> Components</h3>
+            <ul class="draggable-tools">
+                <li data-element="hero"><i class="fa-solid fa-heading"></i> Hero Section</li>
+                <li data-element="features"><i class="fa-solid fa-th-large"></i> Features Grid</li>
+                <li data-element="pricing"><i class="fa-solid fa-tags"></i> Pricing Table</li>
+                <li data-element="contact"><i class="fa-solid fa-envelope"></i> Contact Form</li>
+            </ul>
+        </div>
+
+        <div class="live-canvas-area">
+            <div class="canvas-top-bar">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="canvas-url">https://pibery.online/preview/workspace</span>
+            </div>
+            
+            <div id="dropCanvas" class="canvas-content-box">
+                <div class="welcome-placeholder">
+                    <i class="fa-solid fa-cloud-arrow-down" style="font-size: 3rem; color: #38bdf8; margin-bottom: 15px;"></i>
+                    <h3>Your Canvas is Ready</h3>
+                    <p>Select components from the left toolbox to build your live page structure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
+
 <%- include('partials/footer') %>
