@@ -1,90 +1,96 @@
 <%- include('partials/header') %>
 
-<main class="container dashboard-container" style="padding-bottom: 50px;">
+<main class="container dashboard-container" style="padding: 20px; max-width: 1200px; margin: auto;">
     <!-- Top Platform Header -->
     <div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 25px;">
         <div>
-            <h1>Pibery Studio Dashboard</h1>
-            <p>Manage your e-commerce platform, store builder, admin controls, and storefronts in real-time.</p>
+            <h1 style="color: #38bdf8; margin: 0;">Pibery Store Management</h1>
+            <p style="color: #94a3b8; margin: 5px 0 0 0;">Manage your admin controls and customer storefront seamlessly.</p>
         </div>
         <div class="dashboard-actions" style="display: flex; gap: 10px;">
-            <button id="themeToggle" class="btn-secondary"><i class="fa-solid fa-moon"></i> Theme</button>
-            <button id="exportCodeBtn" class="btn-primary"><i class="fa-solid fa-code"></i> Export Project</button>
+            <button id="themeToggle" class="btn-secondary" style="background: #1f2937; color: #f1f5f9; border: 1px solid #374151; padding: 8px 15px; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-moon"></i> Theme</button>
+            <button id="exportCodeBtn" class="btn-primary" style="background: #38bdf8; color: #0b0f19; border: none; padding: 8px 15px; border-radius: 6px; font-weight: 600; cursor: pointer;"><i class="fa-solid fa-code"></i> Export Store</button>
         </div>
     </div>
 
-    <!-- Interactive Builder Workspace -->
+    <!-- Main Workspace Grid -->
     <div class="builder-studio" style="display: grid; grid-template-columns: 280px 1fr; gap: 20px; margin-bottom: 35px;">
+        <!-- Store Components Toolbox (New Added Elements) -->
         <div class="sidebar-toolbox" style="background: #111827; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;">
             <h3 style="font-size: 1.1rem; color: #38bdf8; margin-bottom: 15px;"><i class="fa-solid fa-toolbox"></i> Store Components</h3>
-            <ul class="draggable-tools" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px;">
-                <li data-element="hero" style="background: #1e293b; padding: 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9;"><i class="fa-solid fa-heading"></i> Hero Section</li>
-                <li data-element="features" style="background: #1e293b; padding: 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9;"><i class="fa-solid fa-th-large"></i> Features Grid</li>
-                <li data-element="pricing" style="background: #1e293b; padding: 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9;"><i class="fa-solid fa-tags"></i> Pricing Table</li>
-                <li data-element="contact" style="background: #1e293b; padding: 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9;"><i class="fa-solid fa-envelope"></i> Contact Form</li>
+            <ul class="draggable-tools" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; max-height: 400px; overflow-y: auto;">
+                <li data-element="Hero Section" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-heading"></i> Hero Section</li>
+                <li data-element="Features Grid" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-th-large"></i> Features Grid</li>
+                <li data-element="Pricing Table" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-tags"></i> Pricing Table</li>
+                <li data-element="Contact Form" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-envelope"></i> Contact Form</li>
+                <li data-element="Product Showcase" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-box-open"></i> Product Showcase</li>
+                <li data-element="Testimonial Slider" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-comments"></i> Testimonial Slider</li>
+                <li data-element="FAQ Section" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-circle-question"></i> FAQ Section</li>
+                <li data-element="Newsletter Banner" style="background: #1e293b; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: #f1f5f9; font-size: 0.9rem;"><i class="fa-solid fa-paper-plane"></i> Newsletter Banner</li>
             </ul>
         </div>
 
-        <div class="live-canvas-area" style="background: #111827; border-radius: 12px; border: 1px solid #1f2937; overflow: hidden; display: flex; flex-direction: column;">
+        <!-- Live Canvas Preview Area -->
+        <div class="live-canvas-area" style="background: #111827; border-radius: 12px; border: 1px solid #1f2937; overflow: hidden; display: flex; flex-direction: column; min-height: 420px;">
             <div class="canvas-top-bar" style="background: #1f2937; padding: 10px 15px; display: flex; align-items: center; gap: 8px;">
-                <span class="dot red" style="width: 10px; height: 10px; background: #ef4444; border-radius: 50%; display: inline-block;"></span>
-                <span class="dot yellow" style="width: 10px; height: 10px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
-                <span class="dot green" style="width: 10px; height: 10px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
-                <span class="canvas-url" style="font-size: 0.8rem; color: #94a3b8; margin-left: 10px;">https://pibery.online/preview/workspace</span>
+                <span style="width: 10px; height: 10px; background: #ef4444; border-radius: 50%; display: inline-block;"></span>
+                <span style="width: 10px; height: 10px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
+                <span style="width: 10px; height: 10px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+                <span style="font-size: 0.8rem; color: #94a3b8; margin-left: 10px;">https://pibery.online/preview/workspace</span>
             </div>
             
-            <div id="dropCanvas" class="canvas-content-box" style="padding: 30px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <div id="dropCanvas" style="padding: 30px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <div class="welcome-placeholder">
                     <i class="fa-solid fa-cloud-arrow-down" style="font-size: 3rem; color: #38bdf8; margin-bottom: 15px;"></i>
-                    <h3 style="color: #f1f5f9;">Your Canvas is Ready</h3>
-                    <p style="color: #94a3b8; font-size: 0.9rem;">Select components from the left toolbox to build your live page structure.</p>
+                    <h3 style="color: #f1f5f9; margin: 0 0 8px 0;">Your Store Canvas is Ready</h3>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin: 0;">Click on any component from the left toolbox to inject it live.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 🛠️ Admin Panel & Management Features Section -->
-    <div class="admin-panel-section" style="background: #111827; padding: 25px; border-radius: 14px; border: 1px solid #1f2937; margin-bottom: 25px;">
-        <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: #38bdf8;"><i class="fa-solid fa-gauge-high"></i> Merchant Admin Panel (Control Center)</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px;">
+    <!-- 🛠️ Admin Panel Suite Section -->
+    <div style="background: #111827; padding: 25px; border-radius: 14px; border: 1px solid #1f2937; margin-bottom: 25px;">
+        <h2 style="font-size: 1.2rem; margin-bottom: 15px; color: #38bdf8;"><i class="fa-solid fa-gauge-high"></i> Admin Control Panel (Merchant & Staff)</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 15px;">
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-chart-line"></i> Real-Time Dashboard</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Monitor live sales, order volume, and visitor traffic instantly.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-chart-line"></i> Live Dashboard</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Real-time sales, order volume, and traffic analytics.</p>
             </div>
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-boxes-stacked"></i> Inventory & Orders</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Process orders, print shipping labels, and track multi-location stock.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-boxes-stacked"></i> Order & Inventory</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Stock tracking, shipping labels, and return handling.</p>
             </div>
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-users-gear"></i> CRM & Staff Control</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Manage customer segments, profiles, and assign staff role permissions.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-users-gear"></i> CRM & Staff</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Customer profiles, segmentation, and staff roles.</p>
             </div>
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-bullhorn"></i> Marketing & Coupons</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Create discount coupon codes and run target email campaigns.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-bullhorn"></i> Marketing & Coupons</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Discount codes, campaigns, and promotional tools.</p>
             </div>
         </div>
     </div>
 
-    <!-- 🛍️ Storefront & User Shopping Features Section -->
-    <div class="user-storefront-section" style="background: #111827; padding: 25px; border-radius: 14px; border: 1px solid #1f2937;">
-        <h2 style="font-size: 1.3rem; margin-bottom: 15px; color: #38bdf8;"><i class="fa-solid fa-bag-shopping"></i> Storefront User Experience (Customer View)</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px;">
+    <!-- 🛍️ Storefront User Experience Section -->
+    <div style="background: #111827; padding: 25px; border-radius: 14px; border: 1px solid #1f2937;">
+        <h2 style="font-size: 1.2rem; margin-bottom: 15px; color: #38bdf8;"><i class="fa-solid fa-bag-shopping"></i> Storefront User Experience (Customer View)</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 15px;">
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-magnifying-glass"></i> Advanced Discovery</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Smart search, multi-filters (price, size, color), and sorting systems.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-magnifying-glass"></i> Product Discovery</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Advanced search, multi-filters, and sorting systems.</p>
             </div>
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-cart-shopping"></i> Cart & Guest Checkout</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Seamless cart management, guest checkout, and secure payment methods.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-cart-shopping"></i> Cart & Checkout</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Guest checkout, cart management, and secure gateways.</p>
             </div>
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-truck-fast"></i> Live Tracking & Returns</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Real-time fulfillment tracking and self-service return requests.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-truck-fast"></i> Live Tracking</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Real-time order delivery tracking and self-returns.</p>
             </div>
             <div style="background: #1e293b; padding: 15px; border-radius: 8px;">
-                <h4 style="color: #f1f5f9;"><i class="fa-solid fa-award"></i> Customer Loyalty</h4>
-                <p style="font-size: 0.85rem; color: #94a3b8; margin-top: 5px;">Earn reward points on repeat purchases and exclusive discounts.</p>
+                <h4 style="color: #f1f5f9; margin: 0 0 5px 0;"><i class="fa-solid fa-award"></i> Loyalty Rewards</h4>
+                <p style="font-size: 0.85rem; color: #94a3b8; margin: 0;">Earn reward points and discounts on repeat buys.</p>
             </div>
         </div>
     </div>
