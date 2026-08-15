@@ -111,3 +111,4 @@ a { text-decoration: none; color: inherit; }
 .cart-drawer.hidden { transform: translateX(100%); }
 .cart-drawer input { width: 100%; margin: 8px 0; padding: 10px; border-radius: 8px; border: 1px solid var(--border); }
 .cart-total { font-weight: 700; margin: 16px 0; }
+ 
