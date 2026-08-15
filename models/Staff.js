@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
 
-const staffSchema = new mongoose.Schema({
-    shopId: { type: mongoose.Schema.Types.ObjectId, ref: 'Shop', required: true },
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    role: { type: String, enum: ['Manager', 'Inventory Staff', 'Order Processor'], default: 'Order Processor' },
+const staffSchema = new mongoose.Schema(
+  {
+    shop: { type: mongoose.Schema.Types.ObjectId, ref: 'Shop', required: true, index: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    position: { type: String, default: 'Staff' },
     permissions: {
-        canManageOrders: { type: Boolean, default: true },
-        canManageProducts: { type: Boolean, default: false },
-        canViewAnalytics: { type: Boolean, default: false }
-    }
-}, { timestamps: true });
+      manageProducts: { type: Boolean, default: false },
+      manageOrders: { type: Boolean, default: false },
+      manageCustomers: { type: Boolean, default: false },
+      manageMarketing: { type: Boolean, default: false },
+      viewAnalytics: { type: Boolean, default: true },
+    },
+    isActive: { type: Boolean, default: true },
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model('Staff', staffSchema);
