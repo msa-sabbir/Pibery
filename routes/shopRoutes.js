@@ -20,4 +20,3 @@ router.put('/:id', updateShop);
 router.delete('/:id', deleteShop);
 
 module.exports = router;
- 
