@@ -1,7 +1,6 @@
 <%- include('partials/header') %>
 
 <main class="container" style="padding: 30px; max-width: 1200px; margin: auto;">
-    <!-- Admin Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #1f2937; padding-bottom: 15px;">
         <div>
             <h1 style="color: #38bdf8; margin: 0; font-size: 1.8rem;"><i class="fa-solid fa-user-shield"></i> Merchant Admin Panel</h1>
@@ -14,7 +13,6 @@
         </div>
     </div>
 
-    <!-- Quick Stats Overview Cards -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 35px;">
         <div style="background: #111827; padding: 20px; border-radius: 12px; border: 1px solid #1f2937;">
             <p style="color: #94a3b8; margin: 0; font-size: 0.85rem;">Total Revenue</p>
@@ -34,10 +32,7 @@
         </div>
     </div>
 
-    <!-- Admin Management Sections Grid -->
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px;">
-        
-        <!-- Add New Product Form Section -->
         <div style="background: #111827; padding: 25px; border-radius: 12px; border: 1px solid #1f2937;">
             <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;"><i class="fa-solid fa-circle-plus"></i> Add New Product to Store</h3>
             <form action="/admin/product/add" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
@@ -57,7 +52,6 @@
             </form>
         </div>
 
-        <!-- Recent Live Orders Section -->
         <div style="background: #111827; padding: 25px; border-radius: 12px; border: 1px solid #1f2937;">
             <h3 style="color: #38bdf8; margin-top: 0; margin-bottom: 20px; font-size: 1.2rem;"><i class="fa-solid fa-list-check"></i> Recent Customer Orders</h3>
             <div style="display: flex; flex-direction: column; gap: 12px;">
@@ -77,7 +71,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </main>
 
