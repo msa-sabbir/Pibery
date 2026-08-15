@@ -1,29 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pibery Website Builder & E-Commerce Suite</title>
-    
-    <!-- Google Fonts (Inter) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Custom CSS Styles -->
-    <link rel="stylesheet" href="/css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Pibery' %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
-<body style="background-color: #0b0f19; color: #f1f5f9; font-family: 'Inter', sans-serif; margin: 0; padding: 0;">
-
-    <!-- Global Platform Navigation Header -->
-    <header style="background: #111827; border-bottom: 1px solid #1f2937; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;">
-        <div class="logo-area" style="display: flex; align-items: center; gap: 10px;">
-            <i class="fa-solid fa-cube" style="color: #38bdf8; font-size: 1.5rem;"></i>
-            <span style="font-size: 1.25rem; font-weight: 700; color: #38bdf8; letter-spacing: 0.5px;">Pibery Platform</span>
-        </div>
-        <nav style="display: flex; gap: 20px; align-items: center;">
-            <a href="/" style="color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.2s;"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="/dashboard" style="color: #f1f5f9; text-decoration: none; font-size: 0.9rem; font-weight: 500;"><i class="fa-solid fa-gauge"></i> Studio</a>
-        </nav>
-    </header>
+<body>
