@@ -13,7 +13,6 @@ const shopRoutes = require('./routes/shopRoutes');
 const productRoutes = require('./routes/productRoutes');
 const businessRoutes = require('./routes/businessRoutes');
 const storeRoutes = require('./routes/storeRoutes');
-const ownerRoutes = require('./routes/ownerRoutes');
 
 const app = express();
 
@@ -45,7 +44,6 @@ app.use('/api/shops', shopRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/business', businessRoutes);
 app.use('/api/store', storeRoutes);
-app.use('/api/owner', ownerRoutes);
 
 // ভিউ রাউটস
 app.get('/', (req, res) => {
@@ -56,8 +54,8 @@ app.get('/dashboard', (req, res) => {
   res.render('dashboard', { title: 'Pibery — বিল্ডার ড্যাশবোর্ড' });
 });
 
-app.get('/owner-admin', (req, res) => {
-  res.render('owner-admin', { title: 'Pibery — Owner Admin' });
+app.get('/owner/dashboard', (req, res) => {
+  res.render('owner-dashboard', { title: 'Pibery Platform — Super Admin Dashboard' });
 });
 
 app.get('/shop/:subdomain', async (req, res) => {
