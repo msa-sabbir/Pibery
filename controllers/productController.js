@@ -107,3 +107,4 @@ exports.updateStock = async (req, res) => {
   if (!product) return res.status(404).json({ success: false, message: 'প্রোডাক্ট পাওয়া যায়নি' });
   res.status(200).json({ success: true, product });
 };
+ 
