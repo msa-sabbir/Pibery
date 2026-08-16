@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="/css/owner-admin.css">
+</head>
+<body>
+
+  <!-- Login View -->
+  <div id="loginView" class="center">
+    <div class="auth-card">
+      <div class="brand">Pibery Platform <span>SUPER ADMIN</span></div>
+      <h1>অনার লগইন</h1>
+      <p>আপনার প্ল্যাটফর্ম ওনার অ্যাকাউন্ট দিয়ে সাইন ইন করুন</p>
+      <form id="loginForm">
+        <label for="loginEmail">ইমেইল ঠিকানা</label>
+        <input type="email" id="loginEmail" required placeholder="owner@pibery.online">
+        <label for="loginPassword" style="margin-top:10px;display:block;">পাসওয়ার্ড</label>
+        <input type="password" id="loginPassword" required placeholder="••••••••">
+        <button type="submit" style="margin-top:16px;">লগইন করুন</button>
+      </form>
+      <div id="loginError" class="error"></div>
+    </div>
+  </div>
+
+  <!-- Main App View -->
+  <div id="appView" class="app hidden">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="brand" style="font-size:20px;font-weight:800;">Pibery <span style="font-size:10px;background:#ffffff1a;color:#fff;padding:3px 6px;border-radius:6px;margin-left:4px;">ADMIN</span></div>
+      <nav>
+        <a class="active" data-tab="overview">📊 ড্যাশবোর্ড ওভারভিউ</a>
+        <a data-tab="shops">🏪 সকল শপ ম্যানেজমেন্ট</a>
+        <a data-tab="users">👥 ইউজার ও মার্চেন্ট</a>
+        <a data-tab="orders">📦 গ্লোবাল অর্ডার্স</a>
+      </nav>
+      <button id="logoutBtn" class="ghost">🚪 লগআউট</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+      <header>
+        <div>
+          <small>Pibery Website Builder Management</small>
+          <h2 id="pageTitle">ড্যাশবোর্ড ওভারভিউ</h2>
+        </div>
+        <div class="owner-pill">
+          👑 স্বাগতম, <span id="ownerName">Owner</span>
+        </div>
+      </header>
+
+      <!-- Overview Panel -->
+      <div id="tab-overview" class="panel active">
+        <div id="stats" class="cards">
+          <!-- Dynamically filled stats -->
+        </div>
+        <div class="grid2">
+          <div class="box">
+            <div class="box-head">
+              <h3>সাম্প্রতিক অর্ডারসমূহ</h3>
+            </div>
+            <div id="recentOrders" class="list"></div>
+          </div>
+          <div class="box">
+            <div class="box-head">
+              <h3>সেরা শপসমূহ (টপ সেলস)</h3>
+            </div>
+            <div id="topShops" class="list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shops Panel -->
+      <div id="tab-shops" class="panel">
+        <div class="toolbar">
+          <input type="text" id="shopSearch" placeholder="শপের নাম বা সাবডোমেইন দিয়ে খুঁজুন...">
+          <select id="shopActive">
+            <option value="">সকল শপ স্ট্যাটাস</option>
+            <option value="true">সক্রিয় (Active)</option>
+            <option value="false">স্থগিত (Suspended)</option>
+          </select>
+          <button onclick="loadShops()">ফিল্টার প্রয়োগ করুন</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>শপ ও সাবডোমেইন</th>
+                <th>মালিক (Merchant)</th>
+                <th>পাবলিশ স্ট্যাটাস</th>
+                <th>অ্যাকাউন্ট স্ট্যাটাস</th>
+                <th>তৈরির তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="shopsBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Users Panel -->
+      <div id="tab-users" class="panel">
+        <div class="toolbar">
+          <input type="text" id="userSearch" placeholder="ইউজারের নাম বা ইমেইল দিয়ে খুঁজুন...">
+          <select id="userRole">
+            <option value="">সকল রোল</option>
+            <option value="merchant">মার্চেন্ট (Merchant)</option>
+            <option value="staff">স্টাফ (Staff)</option>
+            <option value="owner">ওনার (Owner)</option>
+          </select>
+          <button onclick="loadUsers()">ফিল্টার প্রয়োগ করুন</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ইউজার বিবরণ</th>
+                <th>রোল</th>
+                <th>স্ট্যাটাস</th>
+                <th>শেষ লগইন</th>
+                <th>যোগদানের তারিখ</th>
+                <th>অ্যাকশন</th>
+              </tr>
+            </thead>
+            <tbody id="usersBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Orders Panel -->
+      <div id="tab-orders" class="panel">
+        <div class="toolbar">
+          <input type="text" id="orderSearch" placeholder="অর্ডার আইডি, শপ বা কাস্টমার দিয়ে খুঁজুন...">
+          <select id="orderStatus">
+            <option value="">সকল অর্ডার স্ট্যাটাস</option>
+            <option value="pending">Pending</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <select id="paymentStatus">
+            <option value="">সকল পেমেন্ট স্ট্যাটাস</option>
+            <option value="unpaid">Unpaid</option>
+            <option value="paid">Paid</option>
+            <option value="refunded">Refunded</option>
+          </select>
+          <button onclick="loadOrders()">ফিল্টার প্রয়োগ করুন</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>অর্ডার আইডি & তারিখ</th>
+                <th>শপ</th>
+                <th>কাস্টমার</th>
+                <th>মোট মূল্য</th>
+                <th>অর্ডার স্ট্যাটাস</th>
+                <th>পেমেন্ট</th>
+                <th>ট্র্যাকিং</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/owner-admin.js"></script>
+</body>
+</html>
