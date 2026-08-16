@@ -31,7 +31,7 @@ exports.getMyShops = async (req, res) => {
 
 // @route  GET /api/shops/:id
 exports.getShop = async (req, res) => {
-  const shop = await Shop.findOne({ _id: req.params.id, owner: req.user._id });
+  const shop = await Shop.findById(req.params.id);
   if (!shop) return res.status(404).json({ success: false, message: 'শপ খুঁজে পাওয়া যায়নি' });
   res.status(200).json({ success: true, shop });
 };
