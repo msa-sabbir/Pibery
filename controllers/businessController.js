@@ -118,4 +118,3 @@ exports.deleteCoupon = async (req, res) => {
   await marketing.deleteOne();
   res.status(200).json({ success: true, message: 'কুপন ডিলিট হয়েছে' });
 };
- 
