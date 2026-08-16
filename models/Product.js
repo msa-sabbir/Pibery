@@ -30,4 +30,3 @@ productSchema.pre('validate', function (next) {
 });
 
 module.exports = mongoose.model('Product', productSchema);
- 
