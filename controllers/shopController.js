@@ -70,3 +70,4 @@ exports.getShopBySubdomain = async (req, res) => {
   if (!shop) return res.status(404).json({ success: false, message: 'দোকানটি খুঁজে পাওয়া যায়নি' });
   res.status(200).json({ success: true, shop });
 };
+ 
