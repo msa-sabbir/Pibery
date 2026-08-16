@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema(
       enum: ['owner', 'merchant', 'staff'],
       default: 'merchant',
     },
+    plan: {
+      type: String,
+      enum: ['free', 'pro', 'enterprise'],
+      default: 'free',
+    },
     avatar: { type: String, default: '' },
     isActive: { type: Boolean, default: true },
     lastLoginAt: { type: Date },
@@ -29,4 +34,3 @@ userSchema.methods.comparePassword = function (candidate) {
 };
 
 module.exports = mongoose.model('User', userSchema);
- 
