@@ -304,4 +304,3 @@ if (document.getElementById('product-grid')) {
 
   initStorefront();
 }
- 
