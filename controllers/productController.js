@@ -23,8 +23,6 @@ exports.createProduct = async (req, res) => {
 // @route  GET /api/products/shop/:shopId  (admin - all products incl. unpublished)
 exports.getShopProducts = async (req, res) => {
   const { page = 1, limit = 20, category, search } = req.query;
-  const shop = await verifyOwnership(req.params.shopId, req.user._id);
-  if (!shop) return res.status(403).json({ success: false, message: 'অনুমতি নেই' });
   const filter = { shop: req.params.shopId };
   if (category) filter.category = category;
   if (search) filter.$text = { $search: search };
@@ -105,10 +103,6 @@ exports.deleteProduct = async (req, res) => {
 // @route  PATCH /api/products/:id/stock  (quick stock update)
 exports.updateStock = async (req, res) => {
   const { stock } = req.body;
-  const existing = await Product.findById(req.params.id);
-  if (!existing) return res.status(404).json({ success: false, message: 'প্রোডাক্ট পাওয়া যায়নি' });
-  const shop = await verifyOwnership(existing.shop, req.user._id);
-  if (!shop) return res.status(403).json({ success: false, message: 'অনুমতি নেই' });
   const product = await Product.findByIdAndUpdate(req.params.id, { stock }, { new: true });
   if (!product) return res.status(404).json({ success: false, message: 'প্রোডাক্ট পাওয়া যায়নি' });
   res.status(200).json({ success: true, product });
