@@ -13,6 +13,7 @@ const shopRoutes = require('./routes/shopRoutes');
 const productRoutes = require('./routes/productRoutes');
 const businessRoutes = require('./routes/businessRoutes');
 const storeRoutes = require('./routes/storeRoutes');
+const ownerRoutes = require('./routes/ownerRoutes');
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/api/shops', shopRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/business', businessRoutes);
 app.use('/api/store', storeRoutes);
+app.use('/api/owner', ownerRoutes);
 
 // ভিউ রাউটস
 app.get('/', (req, res) => {
