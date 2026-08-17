@@ -5,23 +5,29 @@ const Order = require('../models/Order');
 const Product = require('../models/Product');
 const Customer = require('../models/Customer');
 const Marketing = require('../models/Marketing');
+const Announcement = require('../models/Announcement');
+const Plan = require('../models/Plan');
+const Payout = require('../models/Payout');
+const Setting = require('../models/Setting');
 
 const validObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 exports.overview = async (req, res) => {
-  const [totalUsers, activeUsers, merchants, staff, totalShops, activeShops, publishedShops, totalProducts, totalCustomers, totalOrders, paidOrders, pendingOrders] = await Promise.all([
-    User.countDocuments(), User.countDocuments({ isActive: true }), User.countDocuments({ role: 'merchant' }), User.countDocuments({ role: 'staff' }),
-    Shop.countDocuments(), Shop.countDocuments({ isActive: true }), Shop.countDocuments({ isPublished: true }), Product.countDocuments(), Customer.countDocuments(), Order.countDocuments(),
-    Order.countDocuments({ paymentStatus: 'paid' }), Order.countDocuments({ status: 'pending' }),
+  const [totalUsers, merchants, totalShops, activeShops, totalOrders, paidOrders, totalRevenue, pendingPayouts, activePlans] = await Promise.all([
+    User.countDocuments(),
+    User.countDocuments({ role: 'merchant' }),
+    Shop.countDocuments(),
+    Shop.countDocuments({ isActive: true }),
+    Order.countDocuments(),
+    Order.countDocuments({ paymentStatus: 'paid' }),
+    Order.aggregate([{ $match: { paymentStatus: 'paid' } }, { $group: { _id: null, total: { $sum: '$total' } } }]),
+    Payout.countDocuments({ status: 'pending' }),
+    Plan.countDocuments({ isActive: true })
   ]);
 
-  const revenueAgg = await Order.aggregate([
-    { $match: { paymentStatus: 'paid' } },
-    { $group: { _id: null, total: { $sum: '$total' } } },
-  ]);
-  const revenue = revenueAgg[0]?.total || 0;
-
+  const revenue = totalRevenue[0]?.total || 0;
   const recentOrders = await Order.find().populate('shop', 'name subdomain').populate('customer', 'name email').sort('-createdAt').limit(8).lean();
+  
   const topShops = await Order.aggregate([
     { $match: { paymentStatus: 'paid' } },
     { $group: { _id: '$shop', revenue: { $sum: '$total' }, orders: { $sum: 1 } } },
@@ -30,93 +36,113 @@ exports.overview = async (req, res) => {
     { $project: { _id: 1, revenue: 1, orders: 1, name: '$shop.name', subdomain: '$shop.subdomain' } },
   ]);
 
-  res.json({ success: true, stats: { totalUsers, activeUsers, merchants, staff, totalShops, activeShops, publishedShops, totalProducts, totalCustomers, totalOrders, paidOrders, pendingOrders, revenue }, recentOrders, topShops });
+  res.json({ 
+    success: true, 
+    stats: { totalUsers, merchants, totalShops, activeShops, totalOrders, paidOrders, revenue, pendingPayouts, activePlans }, 
+    recentOrders, 
+    topShops 
+  });
 };
 
+// --- User & Shop Management (Existing with slight improvements) ---
 exports.listUsers = async (req, res) => {
   const { role, active, search, page = 1, limit = 25 } = req.query;
   const filter = {};
-  if (role && ['owner', 'merchant', 'staff'].includes(role)) filter.role = role;
-  if (active === 'true' || active === 'false') filter.isActive = active === 'true';
+  if (role) filter.role = role;
+  if (active) filter.isActive = active === 'true';
   if (search) filter.$or = [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }];
-  const skip = (Number(page) - 1) * Number(limit);
+  const skip = (page - 1) * limit;
   const [users, total] = await Promise.all([
     User.find(filter).select('-password').sort('-createdAt').skip(skip).limit(Number(limit)).lean(),
-    User.countDocuments(filter),
+    User.countDocuments(filter)
   ]);
-  res.json({ success: true, users, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
+  res.json({ success: true, users, total, page: Number(page), pages: Math.ceil(total / limit) });
 };
 
 exports.toggleUser = async (req, res) => {
-  if (!validObjectId(req.params.id)) return res.status(400).json({ success: false, message: 'অবৈধ ইউজার আইডি' });
   const user = await User.findById(req.params.id);
-  if (!user) return res.status(404).json({ success: false, message: 'ইউজার পাওয়া যায়নি' });
-  if (String(user._id) === String(req.user._id)) return res.status(400).json({ success: false, message: 'নিজের অ্যাকাউন্ট নিষ্ক্রিয় করা যাবে না' });
-  if (user.role === 'owner') return res.status(400).json({ success: false, message: 'Owner অ্যাকাউন্ট এই প্যানেল থেকে নিষ্ক্রিয় করা যাবে না' });
+  if (!user || user.role === 'owner') return res.status(400).json({ success: false, message: 'অপারেশন সম্ভব নয়' });
   user.isActive = !user.isActive;
   await user.save({ validateBeforeSave: false });
-  res.json({ success: true, user: { id: user._id, isActive: user.isActive } });
+  res.json({ success: true, isActive: user.isActive });
 };
 
 exports.listShops = async (req, res) => {
-  const { search, active, published, page = 1, limit = 25 } = req.query;
+  const { search, active, page = 1, limit = 25 } = req.query;
   const filter = {};
-  if (active === 'true' || active === 'false') filter.isActive = active === 'true';
-  if (published === 'true' || published === 'false') filter.isPublished = published === 'true';
+  if (active) filter.isActive = active === 'true';
   if (search) filter.$or = [{ name: { $regex: search, $options: 'i' } }, { subdomain: { $regex: search, $options: 'i' } }];
-  const skip = (Number(page) - 1) * Number(limit);
+  const skip = (page - 1) * limit;
   const [shops, total] = await Promise.all([
-    Shop.find(filter).populate('owner', 'name email isActive').sort('-createdAt').skip(skip).limit(Number(limit)).lean(),
-    Shop.countDocuments(filter),
+    Shop.find(filter).populate('owner', 'name email').populate('plan', 'name').sort('-createdAt').skip(skip).limit(Number(limit)).lean(),
+    Shop.countDocuments(filter)
   ]);
-  res.json({ success: true, shops, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
+  res.json({ success: true, shops, total, page: Number(page), pages: Math.ceil(total / limit) });
 };
 
-exports.toggleShop = async (req, res) => {
-  if (!validObjectId(req.params.id)) return res.status(400).json({ success: false, message: 'অবৈধ শপ আইডি' });
-  const shop = await Shop.findById(req.params.id);
-  if (!shop) return res.status(404).json({ success: false, message: 'শপ পাওয়া যায়নি' });
-  shop.isActive = !shop.isActive;
-  await shop.save();
-  res.json({ success: true, shop: { id: shop._id, isActive: shop.isActive } });
+// --- New Professional Features ---
+
+// 1. Plan Management
+exports.listPlans = async (req, res) => {
+  const plans = await Plan.find().sort('price');
+  res.json({ success: true, plans });
 };
 
-exports.listOrders = async (req, res) => {
-  const { status, paymentStatus, search, page = 1, limit = 25 } = req.query;
-  const filter = {};
-  if (['pending','processing','shipped','completed','cancelled'].includes(status)) filter.status = status;
-  if (['unpaid','paid','refunded'].includes(paymentStatus)) filter.paymentStatus = paymentStatus;
-  const skip = (Number(page) - 1) * Number(limit);
-  let orders = await Order.find(filter).populate('shop', 'name subdomain').populate('customer', 'name email').sort('-createdAt').skip(skip).limit(Number(limit)).lean();
-  if (search) {
-    const q = search.toLowerCase();
-    orders = orders.filter(o => String(o._id).toLowerCase().includes(q) || o.shop?.name?.toLowerCase().includes(q) || o.customer?.email?.toLowerCase().includes(q) || o.guestInfo?.email?.toLowerCase().includes(q));
-  }
-  const total = await Order.countDocuments(filter);
-  res.json({ success: true, orders, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
+exports.createPlan = async (req, res) => {
+  const plan = new Plan(req.body);
+  await plan.save();
+  res.json({ success: true, plan });
 };
 
-exports.updateOrder = async (req, res) => {
-  const { status, paymentStatus, note } = req.body;
-  if (!validObjectId(req.params.id)) return res.status(400).json({ success: false, message: 'অবৈধ অর্ডার আইডি' });
-  const order = await Order.findById(req.params.id);
-  if (!order) return res.status(404).json({ success: false, message: 'অর্ডার পাওয়া যায়নি' });
-  if (status && ['pending','processing','shipped','completed','cancelled'].includes(status) && status !== order.status) {
-    order.status = status;
-    order.trackingHistory.push({ status, note: note || `Owner admin থেকে স্ট্যাটাস পরিবর্তন: ${status}` });
-  }
-  if (paymentStatus && ['unpaid','paid','refunded'].includes(paymentStatus)) order.paymentStatus = paymentStatus;
-  await order.save();
-  res.json({ success: true, order });
+exports.updatePlan = async (req, res) => {
+  const plan = await Plan.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json({ success: true, plan });
 };
 
-exports.deleteShop = async (req, res) => {
-  if (!validObjectId(req.params.id)) return res.status(400).json({ success: false, message: 'অবৈধ শপ আইডি' });
-  const shop = await Shop.findById(req.params.id);
-  if (!shop) return res.status(404).json({ success: false, message: 'শপ পাওয়া যায়নি' });
-  await Promise.all([
-    Product.deleteMany({ shop: shop._id }), Customer.deleteMany({ shop: shop._id }), Marketing.deleteMany({ shop: shop._id }), Order.deleteMany({ shop: shop._id }), shop.deleteOne(),
-  ]);
-  res.json({ success: true, message: 'শপ ও সংশ্লিষ্ট ডেটা মুছে ফেলা হয়েছে' });
+// 2. Announcement Management
+exports.listAnnouncements = async (req, res) => {
+  const announcements = await Announcement.find().sort('-createdAt');
+  res.json({ success: true, announcements });
 };
- 
+
+exports.createAnnouncement = async (req, res) => {
+  const announcement = new Announcement({ ...req.body, createdBy: req.user._id });
+  await announcement.save();
+  res.json({ success: true, announcement });
+};
+
+exports.deleteAnnouncement = async (req, res) => {
+  await Announcement.findByIdAndDelete(req.params.id);
+  res.json({ success: true });
+};
+
+// 3. Payout Management
+exports.listPayouts = async (req, res) => {
+  const { status } = req.query;
+  const filter = status ? { status } : {};
+  const payouts = await Payout.find(filter).populate('shop', 'name').populate('merchant', 'name email').sort('-createdAt');
+  res.json({ success: true, payouts });
+};
+
+exports.updatePayout = async (req, res) => {
+  const { status, note } = req.body;
+  const payout = await Payout.findById(req.params.id);
+  if (!payout) return res.status(404).json({ success: false, message: 'পে-আউট পাওয়া যায়নি' });
+  payout.status = status;
+  payout.note = note;
+  if (status === 'completed') payout.processedAt = new Date();
+  await payout.save();
+  res.json({ success: true, payout });
+};
+
+// 4. Platform Settings
+exports.getSettings = async (req, res) => {
+  let settings = await Setting.findOne();
+  if (!settings) settings = await Setting.create({});
+  res.json({ success: true, settings });
+};
+
+exports.updateSettings = async (req, res) => {
+  const settings = await Setting.findOneAndUpdate({}, req.body, { new: true, upsert: true });
+  res.json({ success: true, settings });
+};
