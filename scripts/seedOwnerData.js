@@ -1,27 +1,37 @@
 const mongoose = require('mongoose');
+const User = require('../models/User');
 const Plan = require('../models/Plan');
 const Setting = require('../models/Setting');
 require('dotenv').config();
 
 const seed = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/pibery');
+    await mongoose.connect(process.env.MONGODB_URI);
     
-    // Seed Plans
+    // ১. ওনার অ্যাকাউন্ট তৈরি (যদি না থাকে)
+    const ownerExists = await User.findOne({ role: 'owner' });
+    if (!ownerExists) {
+      const owner = new User({
+        name: "Pibery Admin",
+        email: "admin@pibery.online", // আপনি চাইলে এটি পরিবর্তন করতে পারেন
+        password: "AdminPassword123", // এটি আপনার স্থায়ী পাসওয়ার্ড
+        role: 'owner',
+        isActive: true
+      });
+      await owner.save();
+      console.log('✅ Permanent Owner Account Created');
+    }
+
+    // ২. ডিফল্ট প্ল্যান তৈরি
     const plans = [
-      { name: 'Basic', price: 0, features: { productLimit: 20, orderLimit: 50, customDomain: false } },
-      { name: 'Pro', price: 1500, features: { productLimit: 200, orderLimit: 500, customDomain: true } },
-      { name: 'Enterprise', price: 5000, features: { productLimit: 9999, orderLimit: 9999, customDomain: true } }
+      { name: 'Basic', price: 0, duration: 30, features: ['50 Products', 'Basic Theme'] },
+      { name: 'Pro', price: 1000, duration: 30, features: ['Unlimited Products', 'Custom Domain', 'SSLCommerz'] }
     ];
-    
-    for (const p of plans) {
+    for (let p of plans) {
       await Plan.findOneAndUpdate({ name: p.name }, p, { upsert: true });
     }
-    
-    // Seed Settings
-    await Setting.findOneAndUpdate({}, { platformName: 'Pibery', commissionRate: 2.5 }, { upsert: true });
-    
-    console.log('✅ Owner data seeded successfully');
+
+    console.log('✅ All Data Seeded Successfully');
     process.exit();
   } catch (err) {
     console.error('❌ Seeding failed:', err);
