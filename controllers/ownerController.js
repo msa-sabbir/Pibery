@@ -10,139 +10,73 @@ const Plan = require('../models/Plan');
 const Payout = require('../models/Payout');
 const Setting = require('../models/Setting');
 
-const validObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
-
 exports.overview = async (req, res) => {
-  const [totalUsers, merchants, totalShops, activeShops, totalOrders, paidOrders, totalRevenue, pendingPayouts, activePlans] = await Promise.all([
-    User.countDocuments(),
-    User.countDocuments({ role: 'merchant' }),
-    Shop.countDocuments(),
-    Shop.countDocuments({ isActive: true }),
-    Order.countDocuments(),
-    Order.countDocuments({ paymentStatus: 'paid' }),
-    Order.aggregate([{ $match: { paymentStatus: 'paid' } }, { $group: { _id: null, total: { $sum: '$total' } } }]),
-    Payout.countDocuments({ status: 'pending' }),
-    Plan.countDocuments({ isActive: true })
-  ]);
-
-  const revenue = totalRevenue[0]?.total || 0;
-  const recentOrders = await Order.find().populate('shop', 'name subdomain').populate('customer', 'name email').sort('-createdAt').limit(8).lean();
-  
-  const topShops = await Order.aggregate([
-    { $match: { paymentStatus: 'paid' } },
-    { $group: { _id: '$shop', revenue: { $sum: '$total' }, orders: { $sum: 1 } } },
-    { $sort: { revenue: -1 } }, { $limit: 5 },
-    { $lookup: { from: 'shops', localField: '_id', foreignField: '_id', as: 'shop' } }, { $unwind: '$shop' },
-    { $project: { _id: 1, revenue: 1, orders: 1, name: '$shop.name', subdomain: '$shop.subdomain' } },
-  ]);
-
-  res.json({ 
-    success: true, 
-    stats: { totalUsers, merchants, totalShops, activeShops, totalOrders, paidOrders, revenue, pendingPayouts, activePlans }, 
-    recentOrders, 
-    topShops 
-  });
+  try {
+    const [totalUsers, merchants, totalShops, activeShops, totalOrders, paidOrders, totalRevenue, pendingPayouts, activePlans] = await Promise.all([
+      User.countDocuments(),
+      User.countDocuments({ role: 'merchant' }),
+      Shop.countDocuments(),
+      Shop.countDocuments({ isActive: true }),
+      Order.countDocuments(),
+      Order.countDocuments({ paymentStatus: 'paid' }),
+      Order.aggregate([{ $match: { paymentStatus: 'paid' } }, { $group: { _id: null, total: { $sum: '$total' } } }]),
+      Payout.countDocuments({ status: 'pending' }),
+      Plan.countDocuments({ isActive: true })
+    ]);
+    const revenue = totalRevenue[0]?.total || 0;
+    const recentOrders = await Order.find().populate('shop', 'name').sort('-createdAt').limit(8).lean();
+    res.json({ success: true, stats: { totalUsers, merchants, totalShops, activeShops, totalOrders, paidOrders, revenue, pendingPayouts, activePlans }, recentOrders });
+  } catch (err) { res.status(500).json({ success: false, message: err.message }); }
 };
 
-// --- User & Shop Management (Existing with slight improvements) ---
 exports.listUsers = async (req, res) => {
-  const { role, active, search, page = 1, limit = 25 } = req.query;
-  const filter = {};
-  if (role) filter.role = role;
-  if (active) filter.isActive = active === 'true';
-  if (search) filter.$or = [{ name: { $regex: search, $options: 'i' } }, { email: { $regex: search, $options: 'i' } }];
-  const skip = (page - 1) * limit;
-  const [users, total] = await Promise.all([
-    User.find(filter).select('-password').sort('-createdAt').skip(skip).limit(Number(limit)).lean(),
-    User.countDocuments(filter)
-  ]);
-  res.json({ success: true, users, total, page: Number(page), pages: Math.ceil(total / limit) });
+  const users = await User.find().select('-password').sort('-createdAt').lean();
+  res.json({ success: true, users });
 };
 
 exports.toggleUser = async (req, res) => {
   const user = await User.findById(req.params.id);
-  if (!user || user.role === 'owner') return res.status(400).json({ success: false, message: 'অপারেশন সম্ভব নয়' });
+  if (!user || user.role === 'owner') return res.status(400).json({ success: false });
   user.isActive = !user.isActive;
   await user.save({ validateBeforeSave: false });
   res.json({ success: true, isActive: user.isActive });
 };
 
 exports.listShops = async (req, res) => {
-  const { search, active, page = 1, limit = 25 } = req.query;
-  const filter = {};
-  if (active) filter.isActive = active === 'true';
-  if (search) filter.$or = [{ name: { $regex: search, $options: 'i' } }, { subdomain: { $regex: search, $options: 'i' } }];
-  const skip = (page - 1) * limit;
-  const [shops, total] = await Promise.all([
-    Shop.find(filter).populate('owner', 'name email').populate('plan', 'name').sort('-createdAt').skip(skip).limit(Number(limit)).lean(),
-    Shop.countDocuments(filter)
-  ]);
-  res.json({ success: true, shops, total, page: Number(page), pages: Math.ceil(total / limit) });
+  const shops = await Shop.find().populate('owner', 'name email').populate('plan', 'name').sort('-createdAt').lean();
+  res.json({ success: true, shops });
 };
 
-// --- New Professional Features ---
-
-// 1. Plan Management
-exports.listPlans = async (req, res) => {
-  const plans = await Plan.find().sort('price');
-  res.json({ success: true, plans });
+exports.toggleShop = async (req, res) => {
+  const shop = await Shop.findById(req.params.id);
+  if (!shop) return res.status(404).json({ success: false });
+  shop.isActive = !shop.isActive;
+  await shop.save();
+  res.json({ success: true, isActive: shop.isActive });
 };
 
-exports.createPlan = async (req, res) => {
-  const plan = new Plan(req.body);
-  await plan.save();
-  res.json({ success: true, plan });
-};
-
-exports.updatePlan = async (req, res) => {
-  const plan = await Plan.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json({ success: true, plan });
-};
-
-// 2. Announcement Management
-exports.listAnnouncements = async (req, res) => {
-  const announcements = await Announcement.find().sort('-createdAt');
-  res.json({ success: true, announcements });
-};
-
-exports.createAnnouncement = async (req, res) => {
-  const announcement = new Announcement({ ...req.body, createdBy: req.user._id });
-  await announcement.save();
-  res.json({ success: true, announcement });
-};
-
-exports.deleteAnnouncement = async (req, res) => {
-  await Announcement.findByIdAndDelete(req.params.id);
+exports.deleteShop = async (req, res) => {
+  await Shop.findByIdAndDelete(req.params.id);
   res.json({ success: true });
 };
 
-// 3. Payout Management
-exports.listPayouts = async (req, res) => {
-  const { status } = req.query;
-  const filter = status ? { status } : {};
-  const payouts = await Payout.find(filter).populate('shop', 'name').populate('merchant', 'name email').sort('-createdAt');
-  res.json({ success: true, payouts });
+exports.listOrders = async (req, res) => {
+  const orders = await Order.find().populate('shop', 'name').sort('-createdAt').lean();
+  res.json({ success: true, orders });
 };
 
-exports.updatePayout = async (req, res) => {
-  const { status, note } = req.body;
-  const payout = await Payout.findById(req.params.id);
-  if (!payout) return res.status(404).json({ success: false, message: 'পে-আউট পাওয়া যায়নি' });
-  payout.status = status;
-  payout.note = note;
-  if (status === 'completed') payout.processedAt = new Date();
-  await payout.save();
-  res.json({ success: true, payout });
+exports.updateOrder = async (req, res) => {
+  const order = await Order.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json({ success: true, order });
 };
 
-// 4. Platform Settings
-exports.getSettings = async (req, res) => {
-  let settings = await Setting.findOne();
-  if (!settings) settings = await Setting.create({});
-  res.json({ success: true, settings });
-};
-
-exports.updateSettings = async (req, res) => {
-  const settings = await Setting.findOneAndUpdate({}, req.body, { new: true, upsert: true });
-  res.json({ success: true, settings });
-};
+exports.listPlans = async (req, res) => { res.json({ success: true, plans: await Plan.find().sort('price') }); };
+exports.createPlan = async (req, res) => { const plan = new Plan(req.body); await plan.save(); res.json({ success: true, plan }); };
+exports.updatePlan = async (req, res) => { const plan = await Plan.findByIdAndUpdate(req.params.id, req.body, { new: true }); res.json({ success: true, plan }); };
+exports.listAnnouncements = async (req, res) => { res.json({ success: true, announcements: await Announcement.find().sort('-createdAt') }); };
+exports.createAnnouncement = async (req, res) => { const ann = new Announcement({ ...req.body, createdBy: req.user._id }); await ann.save(); res.json({ success: true, announcement: ann }); };
+exports.deleteAnnouncement = async (req, res) => { await Announcement.findByIdAndDelete(req.params.id); res.json({ success: true }); };
+exports.listPayouts = async (req, res) => { res.json({ success: true, payouts: await Payout.find().populate('shop', 'name').sort('-createdAt') }); };
+exports.updatePayout = async (req, res) => { const payout = await Payout.findByIdAndUpdate(req.params.id, req.body, { new: true }); res.json({ success: true, payout }); };
+exports.getSettings = async (req, res) => { let s = await Setting.findOne(); if (!s) s = await Setting.create({}); res.json({ success: true, settings: s }); };
+exports.updateSettings = async (req, res) => { const s = await Setting.findOneAndUpdate({}, req.body, { new: true, upsert: true }); res.json({ success: true, settings: s }); };
