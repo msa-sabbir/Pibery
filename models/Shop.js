@@ -6,6 +6,9 @@ const shopSchema = new mongoose.Schema(
     owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     name: { type: String, required: true, trim: true },
     subdomain: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    customDomain: { type: String, unique: true, sparse: true, lowercase: true, trim: true },
+    plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan' },
+    planExpiry: { type: Date },
     logo: { type: String, default: '' },
     description: { type: String, default: '' },
     theme: {
